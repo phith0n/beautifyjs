@@ -53,7 +53,30 @@ const canEval = function (node) {
     return true;
 }
 
+const buildLiteral = function (value, raw) {
+    if (typeof value === 'number' && value < 0) {
+        raw = raw || -value;
+        return {
+            type: 'UnaryExpression',
+            operator: '-',
+            argument: {
+                type: 'Literal',
+                value: -value,
+                raw
+            }
+        }
+    } else {
+        raw = raw || value;
+        return {
+            type: 'Literal',
+            value,
+            raw
+        }
+    }
+}
+
 module.exports = {
     walk,
-    canEval
+    canEval,
+    buildLiteral
 };

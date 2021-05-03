@@ -18,14 +18,10 @@ exports.beautify = function (tree) {
             let result = eval(escodegen.generate(node, {
                 format: escodegen.FORMAT_MINIFY
             }));
-            return {
-                type: 'Literal',
-                value: result,
-                raw: result
-            }
+            return ast.buildLiteral(result)
         }
     });
-    tree = ast.walk(tree, true, node => {
+    tree = ast.walk(tree, false, node => {
         if (node.type === 'BinaryExpression' && node.operator === '-') {
             if (node.right.type === 'UnaryExpression' && node.right.operator === '-' && node.right.argument.type === 'Literal') {
                 node.operator = '+';
