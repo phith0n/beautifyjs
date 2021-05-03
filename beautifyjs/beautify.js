@@ -1,7 +1,7 @@
 const escodegen = require('escodegen');
 const ast = require('./ast');
 
-
+const computedUnary = ['~', '!'];
 exports.beautify = function (tree) {
     tree = ast.walk(tree, true, node => {
         if (node.type === 'Literal') {
@@ -15,6 +15,14 @@ exports.beautify = function (tree) {
     });
     tree = ast.walk(tree, true, node => {
         if (node.type === 'BinaryExpression' && ast.canEval(node)) {
+            let result = eval(escodegen.generate(node, {
+                format: escodegen.FORMAT_MINIFY
+            }));
+            return ast.buildLiteral(result)
+        }
+    });
+    tree = ast.walk(tree, true, node => {
+        if (node.type === 'UnaryExpression' && computedUnary.indexOf(node.operator) >= 0 && ast.canEval(node)) {
             let result = eval(escodegen.generate(node, {
                 format: escodegen.FORMAT_MINIFY
             }));

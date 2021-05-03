@@ -4,8 +4,9 @@ This tool will do the following things:
 
 - Beautify the JavaScript code
 - Convert hexadecimal number to decimal number, such as `0x04d2` to `1234`
-- Merge simple expressions, such as `1 + 2 + 3 + 4` to `10`
-- Make complex string simpler, such as `"\150\145\154\154\157"` to `"hello"`  
+- Calculate simple expressions, such as `1 + 2 + 3 + 4` to `10`
+- Simplify confused expressions, such as `!![]` to `true`
+- Make complex string simpler, such as `"\150\145\154\154\157"` to `"hello"`
 - Convert computed property getting to uncomputed property getting, such as `console['log']` to `console.log`
 
 ## Usage

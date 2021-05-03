@@ -41,6 +41,8 @@ const canEval = function (node) {
         let node = queue.shift();
         if (node.type === 'Literal') {
             // do nothing
+        } else if (node.type === 'ArrayExpression' && node.elements.length === 0) {
+            // do nothing
         } else if (node.type === 'UnaryExpression') {
             queue.push(node.argument);
         } else if (node.type === 'BinaryExpression') {
@@ -55,7 +57,7 @@ const canEval = function (node) {
 
 const buildLiteral = function (value, raw) {
     if (typeof value === 'number' && value < 0) {
-        raw = raw || -value;
+        raw = raw || (-value).toString();
         return {
             type: 'UnaryExpression',
             operator: '-',
@@ -66,7 +68,7 @@ const buildLiteral = function (value, raw) {
             }
         }
     } else {
-        raw = raw || value;
+        raw = raw || value.toString();
         return {
             type: 'Literal',
             value,
