@@ -33,11 +33,7 @@ exports.beautify = function (tree) {
         if (node.type === 'BinaryExpression' && node.operator === '-') {
             if (node.right.type === 'UnaryExpression' && node.right.operator === '-' && node.right.argument.type === 'Literal') {
                 node.operator = '+';
-                node.right = {
-                    type: 'Literal',
-                    value: node.right.argument.value,
-                    raw: node.right.argument.raw
-                }
+                node.right = ast.buildLiteral(node.right.argument.value, node.right.argument.raw)
                 return node;
             }
         }
